@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SuSatisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="SuSatisEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="musteriler" EntityType="SuSatisModel.musteriler" />
+    <EntitySet Name="siparisler" EntityType="SuSatisModel.siparisler" />
+    <AssociationSet Name="FK_siparisler_musteriler" Association="SuSatisModel.FK_siparisler_musteriler">
+      <End Role="musteriler" EntitySet="musteriler" />
+      <End Role="siparisler" EntitySet="siparisler" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="musteriler">
+    <Key>
+      <PropertyRef Name="musteriID" />
+    </Key>
+    <Property Name="musteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="soyadi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="telefon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="adres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="siparisler" Relationship="SuSatisModel.FK_siparisler_musteriler" FromRole="musteriler" ToRole="siparisler" />
+  </EntityType>
+  <EntityType Name="siparisler">
+    <Key>
+      <PropertyRef Name="siparisID" />
+    </Key>
+    <Property Name="siparisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="musteriID" Type="Int32" Nullable="false" />
+    <Property Name="durum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="tutar" Type="Int32" Nullable="false" />
+    <Property Name="tarih" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="musteriler" Relationship="SuSatisModel.FK_siparisler_musteriler" FromRole="siparisler" ToRole="musteriler" />
+  </EntityType>
+  <Association Name="FK_siparisler_musteriler">
+    <End Type="SuSatisModel.musteriler" Role="musteriler" Multiplicity="1" />
+    <End Type="SuSatisModel.siparisler" Role="siparisler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="musteriler">
+        <PropertyRef Name="musteriID" />
+      </Principal>
+      <Dependent Role="siparisler">
+        <PropertyRef Name="musteriID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
